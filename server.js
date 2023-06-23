@@ -3,6 +3,8 @@ const dotenv = require("dotenv")
 
 const cors = require("cors");
 const connectiondb = require("./config/connectdb");
+const userRegisterroute = require("./routes/Userregister")
+const addStating = require("./routes/AddState")
 
 dotenv.config()
 
@@ -10,10 +12,13 @@ const app= express();
 const port = process.env.PORT || 4000;
 app.use(cors())
 app.use(express.json())
+app.use('/api',userRegisterroute)
+app.use('/new',addStating)
 connectiondb(process.env.DATABASE_URL)
 app.listen(port,()=>{
     console.log(`The app is listening on the ${port} port`)
 })
+
 
 
 
