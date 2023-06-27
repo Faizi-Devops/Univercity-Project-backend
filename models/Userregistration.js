@@ -21,7 +21,39 @@ const userregisterSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true
+  },
+  address: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  state: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  country: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  pincode: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  regdate: {
+    type: String,
+    trim: true,
+    required: true
   }
+  // contactNumber: {
+  //   type: String,
+  //   trim: true,
+  //   required: true
+  // }
+  
+  // address,state,country,pincode,regdate,photourl
 });
 
 const User = mongoose.model('UserRegister', userregisterSchema);

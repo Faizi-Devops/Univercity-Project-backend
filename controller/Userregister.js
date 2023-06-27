@@ -3,15 +3,16 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const Userregistration = async (req, res) => {
-  const { fullName, email, password,  contactNumber } = req.body;
+
+  const { fullName, email, password,  contactNumber,address,state,country,pincode,regdate } = req.body;
   const user = await UserregisterModel.findOne({ email: email });
   if (user) {
     res.send({
-      status: "Failed",
+      status: "Exist",
       message: "User email already exists",
     });
   } else {
-    if (fullName && email && password && contactNumber !== "") {
+    if (fullName && email && password && contactNumber && address && state && country && pincode && regdate !== "") {
       try {
         const salt = await bcrypt.genSalt(12);
         const hashpassword = await bcrypt.hash(password, salt);
@@ -20,6 +21,11 @@ const Userregistration = async (req, res) => {
           email: email,
           password: hashpassword,
           contactNumber: contactNumber,
+          address:address,
+          state:state,
+          country:country,
+          pincode:pincode,
+          regdate:regdate
         });
         await newUser.save();
         const saved_user = await UserregisterModel.findOne({
@@ -58,9 +64,9 @@ const Userlogin = async(req,res) =>{
                   
                   const token = jwt.sign({userID:user._id},process.env.JWT_SECRET_KEY,{expiresIn:'5d'})
                     res.status(200).send({
-                        "status":"success",
-                        "message":"User login successfully",
-                        "Token":token
+                        status:"success",
+                        message:"User login successfully",
+                        Token:token
                     })
 
                 }
@@ -75,19 +81,45 @@ const Userlogin = async(req,res) =>{
             }
             else{
                 res.send({
-                    "status":"failed",
-                    "message":"You are not a register User"
+                    status:"failed",
+                    message:"You are not a register User"
                 })
             }
         }else{
             res.send({
-                "status":"failed",
-                "message":"Alld fields are required"
+                status:"failed",
+                message:"Alld fields are required"
             })
         }
     } catch (error) {
         
     }
+
+}
+const getAllUsers = async(req,res) =>{
+  try {
+    const users = await UserregisterModel.find();
+    res.status(200).send(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('An error occurred while retrieving users.');
+  }
+
+}
+const deleteUser = async(req,res) =>{
+  try {
+    const userId = req.params.id;
+    await UserregisterModel.findByIdAndDelete(userId);
+    res.status(200).send({
+      "message":"User Deleted Successfully"
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      "message":"An error occurred while deleting the user."
+    });
+  }
+
 
 }
 const changePassowrd = async(req,res) =>{
@@ -159,6 +191,6 @@ const sendEmailForgetPassword  = async(req,res)=>{
 
 
 }
-module.exports = { Userregistration, Userlogin,changePassowrd,userLogged,sendEmailForgetPassword };
+module.exports = { Userregistration, Userlogin,changePassowrd,userLogged,sendEmailForgetPassword,getAllUsers,deleteUser };
   
   
