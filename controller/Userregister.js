@@ -53,6 +53,30 @@ const Userregistration = async (req, res) => {
   }
 };
 
+
+const LoggedinuserData = async(req,res) =>{
+  const { email } = req.query;
+
+  try {
+    const user = await UserregisterModel.findOne({ email }).select('-password -_id');
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({
+        status: "Failed",
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    console.log(error); // Log the error for debugging
+    res.status(500).json({
+      status: "Failed",
+      message: "Unable to fetch user data",
+    });
+  }
+
+}
+
 const Userlogin = async(req,res) =>{
     try {
         const {email,password} = req.body;
@@ -191,6 +215,72 @@ const sendEmailForgetPassword  = async(req,res)=>{
 
 
 }
-module.exports = { Userregistration, Userlogin,changePassowrd,userLogged,sendEmailForgetPassword,getAllUsers,deleteUser };
+const updateUserWithEmail = async (req, res) => {
+
+  try {
+    const { email, pincode,fullName,contactNumber,address,state,country } = req.body;
+
+    // Find the state by email
+    const kuch = await UserregisterModel.findOne({ email });
+    if (!kuch) {
+      return res.status(404).send({ error: 'State not found' });
+    }
+
+    // Update the fields
+    
+  
+    kuch.pincode= pincode ;
+    kuch.fullName=fullName;
+    kuch.contactNumber=contactNumber;
+    kuch.address = address;
+    kuch.state = state;
+    kuch.country = country
+  
+
+    // Save the updated state
+    await kuch.save();
+
+    res.status(200).send({
+      message: 'User Profile updated successfully',
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+// const updateUserDataLogin = async(req,res) =>{
+//   try {
+//         const { email, pincode,fullName,contactNumber,address,state,country } = req.body;
+    
+//         // Find the state by email
+//         const kuch = await UserregisterModel.findOne({ email });
+//         if (!kuch) {
+//           return res.status(404).send({ error: 'State not found' });
+//         }
+    
+//         // Update the fields
+        
+      
+//         kuch.pincode= pincode ;
+//         kuch.fullName=fullName;
+//         kuch.contactNumber=contactNumber;
+//         kuch.address = address;
+//         kuch.state = state;
+//         kuch.country = country
+      
+    
+//         // Save the updated state
+//         await kuch.save();
+    
+//         res.status(200).send({
+//           message: 'User Profile updated successfully',
+//         });
+//       } catch (error) {
+//         res.status(500).json({ error: 'Internal server error' });
+//         console.log(error)
+//       }
+
+// }
+
+module.exports = { Userregistration, Userlogin,changePassowrd,userLogged,sendEmailForgetPassword,getAllUsers,deleteUser,LoggedinuserData,updateUserWithEmail };
   
   
