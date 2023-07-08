@@ -1,7 +1,7 @@
 const State = require("../models/Logindetail");
 const createLogindetail = async (req, res) => {
     try {
-      const { email, logintime, logouttime, status } = req.body;
+      const { email, logintime, logouttime, status,uniqueId } = req.body;
   
       // Check if the state already exists
     //   const existingState = await State.findOne({ name });
@@ -9,7 +9,7 @@ const createLogindetail = async (req, res) => {
     //     return res.status(400).send({ error: 'State already exists' });
     //   }
   
-      const state = new State({ email, logintime, logouttime, status });
+      const state = new State({ email, logintime, logouttime, status,uniqueId });
       await state.save();
       res.status(201).send(
         {
@@ -21,9 +21,12 @@ const createLogindetail = async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   };
+
+
   const getAllLoginDetails = async (req, res) => {
     try {
       const states = await State.find();
+      console.log(states)
       res.send({
         "login": states,
         "message": "Login Detail Fetch Successfully"
@@ -33,20 +36,25 @@ const createLogindetail = async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   };
+
+
+
+
   const updateStateByEmail = async (req, res) => {
     try {
-      const { email, logouttime } = req.body;
+      const { email,uniqueId, logouttime } = req.body;
+      console.log(uniqueId, logouttime);
   
-      // Find the state by email
+      // Find the state by uniqueId
       const state = await State.findOne({ email });
+      console.log(state);
+  
       if (!state) {
         return res.status(404).send({ error: 'State not found' });
       }
   
       // Update the fields
-      
-    
-      state.logouttime= logouttime;
+      state.logouttime = logouttime;
   
       // Save the updated state
       await state.save();

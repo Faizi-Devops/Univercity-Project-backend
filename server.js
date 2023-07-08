@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv")
+const multer = require("multer")
 
 const cors = require("cors");
 const connectiondb = require("./config/connectdb");
@@ -8,6 +9,7 @@ const addStating = require("./routes/AddState")
 const addCatogy = require("./routes/AddCategory")
 const subSubcategory = require("./routes/AddSub")
 const logindetail = require('./routes/Logindetail')
+const changePassword = require('./routes/Password')
 
 dotenv.config()
 
@@ -20,7 +22,11 @@ app.use('/new',addStating)
 app.use('/cat',addCatogy)
 app.use('/sub',subSubcategory)
 app.use('/log',logindetail)
+app.use('/sub',changePassword)
+app.use('/uploads',express.static('uploads'))
 connectiondb(process.env.DATABASE_URL)
+
+
 app.listen(port,()=>{
     console.log(`The app is listening on the ${port} port`)
 })

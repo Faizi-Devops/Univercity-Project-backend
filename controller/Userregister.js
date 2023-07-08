@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const Userregistration = async (req, res) => {
 
-  const { fullName, email, password,  contactNumber,address,state,country,pincode,regdate } = req.body;
+  const { fullName, email, password,  contactNumber,address,state,country,pincode,regdate,image } = req.body;
   const user = await UserregisterModel.findOne({ email: email });
   if (user) {
     res.send({
@@ -12,7 +12,7 @@ const Userregistration = async (req, res) => {
       message: "User email already exists",
     });
   } else {
-    if (fullName && email && password && contactNumber && address && state && country && pincode && regdate !== "") {
+    if (fullName && email && password && contactNumber && address && state && country && pincode && regdate && image !==  "") {
       try {
         const salt = await bcrypt.genSalt(12);
         const hashpassword = await bcrypt.hash(password, salt);
@@ -25,7 +25,9 @@ const Userregistration = async (req, res) => {
           state:state,
           country:country,
           pincode:pincode,
-          regdate:regdate
+          regdate:regdate,
+          image:image
+          
         });
         await newUser.save();
         const saved_user = await UserregisterModel.findOne({
@@ -92,6 +94,12 @@ const Userlogin = async(req,res) =>{
                         message:"User login successfully",
                         Token:token
                     })
+                     //for unique id
+                const timestamp = Date.now().toString(36); // Convert current timestamp to base 36 string
+                const randomChars = Math.random().toString(36).substring(2, 7); // Generate random characters
+                const uniqueId = `${timestamp}-${randomChars}`;
+                user.uniqueId = uniqueId;
+    await user.save();
 
                 }
                 else{
@@ -216,8 +224,12 @@ const sendEmailForgetPassword  = async(req,res)=>{
 
 }
 const updateUserWithEmail = async (req, res) => {
+  console.log(req.file,req.body,"227")
+  
+  
 
   try {
+    let profile = (req.file)? req.file.path :null
     const { email, pincode,fullName,contactNumber,address,state,country } = req.body;
 
     // Find the state by email
@@ -234,7 +246,10 @@ const updateUserWithEmail = async (req, res) => {
     kuch.contactNumber=contactNumber;
     kuch.address = address;
     kuch.state = state;
-    kuch.country = country
+    kuch.country = country;
+    kuch.image = profile
+    
+    
   
 
     // Save the updated state
@@ -245,6 +260,7 @@ const updateUserWithEmail = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
+    console.log(error)
   }
 };
 // const updateUserDataLogin = async(req,res) =>{

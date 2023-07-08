@@ -46,6 +46,19 @@ const userregisterSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true
+  },newPassword:{
+    type: String,
+    trim: true,
+   
+
+  },
+  uniqueId:{
+    type:String,
+    trim:true,
+    
+  },
+  image:{
+    type:String
   }
   // contactNumber: {
   //   type: String,
