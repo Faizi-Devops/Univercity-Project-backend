@@ -229,7 +229,7 @@ const updateUserWithEmail = async (req, res) => {
   
 
   try {
-    let profile = (req.file)? req.file.path :null
+    let profile = req.file.filename
     const { email, pincode,fullName,contactNumber,address,state,country } = req.body;
 
     // Find the state by email
