@@ -1,7 +1,7 @@
 const State = require("../models/Logindetail");
 const createLogindetail = async (req, res) => {
     try {
-      const { email, logintime, logouttime, status,uniqueId } = req.body;
+      const { email, logintime, logouttime, status,uniqueId,uniqueness } = req.body;
   
       // Check if the state already exists
     //   const existingState = await State.findOne({ name });
@@ -9,7 +9,7 @@ const createLogindetail = async (req, res) => {
     //     return res.status(400).send({ error: 'State already exists' });
     //   }
   
-      const state = new State({ email, logintime, logouttime, status,uniqueId });
+      const state = new State({ email, logintime, logouttime, status,uniqueId,uniqueness });
       await state.save();
       res.status(201).send(
         {
@@ -42,11 +42,11 @@ const createLogindetail = async (req, res) => {
 
   const updateStateByEmail = async (req, res) => {
     try {
-      const { email,uniqueId, logouttime } = req.body;
-      console.log(uniqueId, logouttime);
+      const { email,uniqueness, logouttime } = req.body;
+      console.log(uniqueness, logouttime);
   
       // Find the state by uniqueId
-      const state = await State.findOne({ email });
+      const state = await State.findOne({ uniqueness });
       console.log(state);
   
       if (!state) {

@@ -1,6 +1,6 @@
 const express= require ("express")
 const router = express.Router();
-const {createComplain} = require("../controller/Complain");
+const {createComplain,complaintswithEmail,counting,allComplains,countingProcess,updatewithnumber,countingClose} = require("../controller/Complain");
 const multer  = require('multer')
 
 
@@ -22,9 +22,17 @@ const storage = multer.diskStorage({
 
 
 // router.get('/getSub',getAllSub)
+router.get('/complainemail',complaintswithEmail)
+router.get('/complaintsgetting',allComplains)
 router.post('/createComplain',uploads.single('file'),createComplain)
+router.post('/countingprocess',countingProcess)
+router.post('/countingClose',countingClose)
+router.post('/updatewithnumber',updatewithnumber)
+
+// router.post('/updatewithnumber',updatewithnumber)
 // router.delete('/deleteSub/:id',deleteSub)
 // router.put('/updateSub/:id',updateSub)
+router.put('/counting',counting)
 
 
 

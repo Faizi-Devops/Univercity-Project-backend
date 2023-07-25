@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const complainSchema = new mongoose.Schema({
+const noprocessSchema = new mongoose.Schema({
     email: { type: String, required: true },
     complainumber:{type:Number},
     category:{type:String,trim:true},
@@ -24,6 +24,6 @@ const complainSchema = new mongoose.Schema({
 
 
 
-const State = mongoose.model('Complain', complainSchema);
+const State = mongoose.model('Notprocess', noprocessSchema);
 
 module.exports = State;

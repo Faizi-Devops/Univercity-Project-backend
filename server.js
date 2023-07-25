@@ -11,6 +11,11 @@ const subSubcategory = require("./routes/AddSub")
 const logindetail = require('./routes/Logindetail')
 const changePassword = require('./routes/Password')
 const complain = require('./routes/Complain')
+const nopro = require('./routes/NoProcess')
+const proc = require('./routes/Process')
+const close = require('./routes/Close')
+const admin = require('./routes/AdminLogin')
+
 
 dotenv.config()
 
@@ -25,8 +30,15 @@ app.use('/sub',subSubcategory)
 app.use('/log',logindetail)
 app.use('/sub',changePassword)
 app.use('/comp',complain)
+app.use('/nop',nopro)
+app.use('/proc',proc)
+app.use('/close',close)
+app.use('/admi',admin)
+
 app.use('/uploads',express.static('uploads'))
 app.use('/complaints', express.static('complaints'));
+app.use('/noprocess', express.static('noprocess'));
+
 
 connectiondb(process.env.DATABASE_URL)
 

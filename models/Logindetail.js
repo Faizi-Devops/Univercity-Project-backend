@@ -6,6 +6,7 @@ const logindetailSchema = new mongoose.Schema({
     logouttime: { type: String, trim: true },
     status: { type: String, trim: true },
     uniqueId: { type: String, trim: true },
+    uniqueness:{type:String,trim:true}
 
 
 });
