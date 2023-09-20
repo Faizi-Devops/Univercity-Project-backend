@@ -59,6 +59,10 @@ const userregisterSchema = new mongoose.Schema({
   },
   image:{
     type:String
+  },
+  token:{
+    type:String,
+    default:""
   }
   // contactNumber: {
   //   type: String,

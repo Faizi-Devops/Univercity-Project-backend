@@ -18,7 +18,7 @@ const getAllCategories = async (req, res) => {
 // POST /states - Create a new state
 const createCategory = async (req, res) => {
   try {
-    const { name, description, dating, updated } = req.body;
+    const { name, description, dating, updated,category } = req.body;
 
     // Check if the state already exists
     const existingState = await State.findOne({ name });

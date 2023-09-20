@@ -16,7 +16,7 @@ const addClose = async (req, res) => {
         res.status(201).send(
           {
             "state": state,
-            "message": "Comlaint Successfully Added to the Process"
+            "message": "Document Successfully Added to the Closed"
           }
         );
       } catch (error) {

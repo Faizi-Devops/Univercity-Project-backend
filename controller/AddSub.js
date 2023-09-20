@@ -18,7 +18,7 @@ const getAllSub = async (req, res) => {
 // POST /states - Create a new state
 const createSub = async (req, res) => {
   try {
-    const { name, description, dating, updated } = req.body;
+    const { name, description, dating, updated,category } = req.body;
 
     // Check if the state already exists
     const existingState = await State.findOne({ name });
@@ -26,7 +26,7 @@ const createSub = async (req, res) => {
       return res.status(400).send({ error: 'Subcategory already exists' });
     }
 
-    const state = new State({ name, description, dating, updated });
+    const state = new State({ name, description, dating, updated,category });
     await state.save();
     res.status(201).send(
       {
@@ -67,6 +67,7 @@ const updateSub = async (req, res) => {
     // if (!state) {
     //   return res.status(404).send({ error: 'State not found' });
     // }
+    
 
     // Update the fields
     state.name = name;
@@ -87,6 +88,20 @@ const updateSub = async (req, res) => {
 };
 
 
+const showing = async(req,res) =>{
+  const { category } = req.query;
+  try {
+    const subcategories = await State.find({ category: category });
+    res.send({ 
+
+     message: subcategories
+     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch subcategories" });
+  }
+
+}
 
 
 
@@ -96,5 +111,4 @@ const updateSub = async (req, res) => {
 
 
 
-
-module.exports = { getAllSub, createSub, deleteSub, updateSub };
+module.exports = { getAllSub, createSub, deleteSub, updateSub,showing };

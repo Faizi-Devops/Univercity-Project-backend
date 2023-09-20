@@ -52,7 +52,7 @@ const createComplain = async (req, res) => {
       const complaints = await Complain.find();
       res.json(complaints);
     } catch (error) {
-      console.error('Error fetching complaints:', error);
+      console.error('Error fetching documents:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
 

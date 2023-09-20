@@ -59,7 +59,7 @@ const Adminregistration = async (req, res) => {
                   const token = jwt.sign({userID:user._id},process.env.JWT_SECRET_KEY,{expiresIn:'5d'})
                     res.status(200).send({
                         status:"success",
-                        message:"User login successfully",
+                        message:"Admin login successfully",
                         Token:token
                     })
                      //for unique id

@@ -15,6 +15,7 @@ const nopro = require('./routes/NoProcess')
 const proc = require('./routes/Process')
 const close = require('./routes/Close')
 const admin = require('./routes/AdminLogin')
+const change = require('./routes/Forgetpassword')
 
 
 dotenv.config()
@@ -34,6 +35,7 @@ app.use('/nop',nopro)
 app.use('/proc',proc)
 app.use('/close',close)
 app.use('/admi',admin)
+app.use('/change',change)
 
 app.use('/uploads',express.static('uploads'))
 app.use('/complaints', express.static('complaints'));
